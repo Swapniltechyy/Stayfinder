@@ -17,7 +17,11 @@ export function useStays() {
     async function fetchCities() {
       try {
         setLoading(true);
-        const res = await fetch('/api/cities');
+        let res = await fetch('/api/cities');
+        if (!res.ok) {
+          // Fallback to static data
+          res = await fetch('/data/index.json');
+        }
         if (!res.ok) throw new Error(`Failed to fetch cities: ${res.statusText}`);
         const data = await res.json();
         const cityList = Array.isArray(data) ? data : (data.cities || []);
@@ -43,7 +47,11 @@ export function useStays() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`/api/cities/${encodeURIComponent(selectedCity)}`);
+        let res = await fetch(`/api/cities/${encodeURIComponent(selectedCity)}`);
+        if (!res.ok) {
+          // Fallback to static data file
+          res = await fetch(`/data/${encodeURIComponent(selectedCity.toLowerCase())}.json`);
+        }
         if (!res.ok) throw new Error(`Failed to fetch stays for ${selectedCity}`);
         const data = await res.json();
         
