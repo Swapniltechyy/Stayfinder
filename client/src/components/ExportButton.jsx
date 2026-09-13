@@ -61,7 +61,7 @@ export default function ExportButton({ stays, selectedCity, disabled }) {
       title={stays?.length > 0 ? `Export ${stays.length} stays to Excel` : 'No stays to export'}
     >
       <Download size={16} className="export-icon" />
-      <span>Export to Excel</span>
+      <span>Export</span>
       {stays && stays.length > 0 && <span className="export-count">({stays.length})</span>}
     </button>
   );
