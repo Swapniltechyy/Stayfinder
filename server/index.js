@@ -51,15 +51,26 @@ app.get('/api/cities/:cityName', (req, res) => {
   }
 });
 
-// Serve client in production if built
+// Static require ensures Vercel's bundler packages data files into serverless function
+try {
+  require('./data/index.json');
+  require('./data/darjeeling.json');
+  require('./data/sikkim.json');
+} catch (e) {}
+
+// Serve client in production if built and not on Vercel
 const clientDist = path.join(__dirname, '..', 'client', 'dist');
-if (fs.existsSync(clientDist)) {
+if (!process.env.VERCEL && fs.existsSync(clientDist)) {
   app.use(express.static(clientDist));
   app.get('*', (req, res) => {
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`StayFinder API server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`StayFinder API server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
