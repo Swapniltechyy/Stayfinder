@@ -845,6 +845,35 @@ button, select, input {
   line-height: 1.3;
 }
 
+.card-header-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.card-map-pin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.card-map-pin-btn:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
 .category-badge {
   display: inline-flex;
   align-items: center;
@@ -1075,81 +1104,420 @@ button, select, input {
   border-color: var(--color-border-hover);
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
+/* Floating Scroll-to-top button in List */
+.list-scroll-top-btn {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  z-index: 950;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.list-scroll-top-btn:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* Floating Selected Stay Card on Map */
+.map-floating-card {
+  position: absolute;
+  bottom: 78px;
+  left: 14px;
+  right: 14px;
+  max-width: 420px;
+  margin: 0 auto;
+  z-index: 1000;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.22);
+  padding: 14px 16px;
+  animation: mapCardSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mapCardSlideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.map-card-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: all 0.15s ease;
+}
+
+.map-card-close-btn:hover {
+  background: #e2e8f0;
+  color: var(--color-text-primary);
+}
+
+.map-card-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-right: 28px;
+}
+
+.map-card-area-text {
+  font-size: 0.76rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.map-card-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.map-card-address-text {
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-card-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.map-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  transition: all 0.15s ease;
+}
+
+.map-action-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-border-hover);
+}
+
+.map-action-btn.btn-call {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+.map-action-btn.btn-call:hover {
+  background: #dbeafe;
+}
+
+.map-action-btn.btn-email {
+  background: #f0fdf4;
+  color: #16a34a;
+  border-color: #bbf7d0;
+}
+.map-action-btn.btn-email:hover {
+  background: #dcfce7;
+}
+
+.map-action-btn.btn-web {
+  background: #f8fafc;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+.map-action-btn.btn-web:hover {
+  background: #e0f2fe;
+}
+
+.map-action-btn.btn-list-view {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+.map-action-btn.btn-list-view:hover {
+  background: var(--color-primary-hover);
+}
+
+/* Mobile Toggle Bar - Hidden by default on Desktop */
+.mobile-view-toggle-bar {
+  display: none;
+}
+
+/* Dynamic Mobile Responsive Architecture (< 1024px) */
+@media (max-width: 1024px) {
   .app-layout {
-    height: auto;
-    min-height: 100vh;
-    overflow-y: auto;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
   }
 
   .portal-split-view {
-    flex-direction: column;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Dynamic Tab Switching: Active vs Hidden */
+  .list-panel {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1 1 100% !important;
+    border-right: none;
+  }
+
+  .list-panel.mobile-hidden {
+    display: none !important;
+  }
+
+  .list-panel.mobile-active {
+    display: flex !important;
   }
 
   .map-panel {
-    height: 400px;
-    flex: none;
-    order: -1;
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1 1 100% !important;
     border-right: none;
-    border-bottom: 1px solid var(--color-border);
   }
 
-  .list-panel {
-    flex: none;
-    min-width: 100%;
-    height: auto;
-    border-right: none;
+  .map-panel.mobile-hidden {
+    display: none !important;
+  }
+
+  .map-panel.mobile-active {
+    display: flex !important;
   }
 
   .stay-cards-container {
-    overflow-y: visible;
+    padding-bottom: 84px; /* clearance for floating toggle bar */
+  }
+
+  /* Floating Bottom Switcher Bar on Mobile */
+  .mobile-view-toggle-bar {
+    display: flex;
+    position: fixed;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1200;
+    gap: 4px;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 9999px;
+    padding: 5px 6px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .mobile-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .mobile-toggle-btn.active {
+    background: var(--color-primary);
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(37, 99, 235, 0.45);
+  }
+
+  .map-legend {
+    bottom: 80px;
+    left: 14px;
   }
 }
 
+/* Smartphone Adjustments (< 640px) */
 @media (max-width: 640px) {
   .app-header {
-    padding: 0 16px;
     height: auto;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    padding: 10px 14px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .header-brand {
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .brand-logo-img {
+    height: 36px;
+  }
+
+  .brand-text {
+    min-width: 0;
+  }
+
+  .app-title {
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-subtitle {
+    font-size: 0.68rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 190px;
   }
 
   .header-actions {
-    width: 100%;
-    justify-content: space-between;
+    gap: 8px;
+    flex-shrink: 0;
   }
 
+  .header-stat {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+
+  .stat-value {
+    font-size: 0.85rem;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    display: none;
+  }
+
+  .export-button {
+    padding: 6px 10px;
+    font-size: 0.76rem;
+    gap: 5px;
+  }
+
+  /* Horizontal touch-friendly scrollable filter bar */
   .filter-bar {
-    padding: 12px 16px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .filter-bar-inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: max-content;
   }
 
-  .filter-divider {
+  .filter-bar-inner::-webkit-scrollbar {
     display: none;
   }
 
   .filter-select {
-    max-width: 100%;
-    width: 100%;
+    width: auto;
+    min-width: 120px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .filter-divider {
+    display: block;
+    width: 1px;
+    height: 22px;
+    background-color: var(--color-border);
+    flex-shrink: 0;
   }
 
   .category-pills {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .category-pill {
+    padding: 5px 10px;
+    font-size: 0.76rem;
   }
 
   .search-filter-group {
-    max-width: 100%;
+    flex-shrink: 0;
+    min-width: 160px;
+    max-width: 200px;
+  }
+
+  .stay-cards-container {
+    padding: 12px 14px 84px 14px;
+    gap: 10px;
+  }
+
+  .stay-card {
+    padding: 14px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-header-tags {
     width: 100%;
-    min-width: 100%;
+    justify-content: space-between;
   }
 }

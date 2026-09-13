@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import StayCard from './StayCard.jsx';
-import { SearchX, RotateCcw } from 'lucide-react';
+import { SearchX, RotateCcw, ArrowUp } from 'lucide-react';
 
 export default function StayList({
   stays,
@@ -8,9 +8,11 @@ export default function StayList({
   selectedCity,
   selectedStayId,
   onSelectStay,
+  onOpenMap,
   onResetFilters
 }) {
   const listRef = useRef(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Auto-scroll to selected card when selectedStayId changes
   useEffect(() => {
@@ -20,6 +22,14 @@ export default function StayList({
       cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [selectedStayId]);
+
+  const handleScroll = (e) => {
+    if (e.target.scrollTop > 280) {
+      setShowScrollTop(true);
+    } else {
+      setShowScrollTop(false);
+    }
+  };
 
   return (
     <div className="stay-list-panel">
@@ -32,7 +42,7 @@ export default function StayList({
         </div>
       </div>
 
-      <div className="stay-cards-container" ref={listRef}>
+      <div className="stay-cards-container" ref={listRef} onScroll={handleScroll}>
         {stays.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon-wrapper">
@@ -56,10 +66,24 @@ export default function StayList({
               stay={stay}
               isSelected={selectedStayId === stay.id}
               onSelect={onSelectStay}
+              onOpenMap={onOpenMap}
             />
           ))
         )}
       </div>
+
+      {showScrollTop && (
+        <button
+          type="button"
+          className="list-scroll-top-btn"
+          onClick={() => listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+          title="Scroll back to top"
+          aria-label="Scroll back to top"
+        >
+          <ArrowUp size={15} />
+          <span>Top</span>
+        </button>
+      )}
     </div>
   );
 }

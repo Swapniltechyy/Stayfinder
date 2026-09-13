@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet.markercluster';
+import { X, Phone, Mail, Globe, List } from 'lucide-react';
 
 // OpenStreetMap (Standard) Tile Engine
 const OSM_STANDARD = {
@@ -10,6 +11,18 @@ const OSM_STANDARD = {
   maxZoom: 19,
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 };
+
+// Custom helper to recompute Leaflet dimensions when mobile tab changes
+function MapResizeHandler({ mobileView }) {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [mobileView, map]);
+  return null;
+}
 
 // Custom SVG Icons for Leaflet markers by category
 const createCategoryIcon = (category, isSelected) => {
@@ -172,6 +185,8 @@ export default function MapView({
   stays,
   selectedStayId,
   onSelectStay,
+  mobileView,
+  onSwitchView,
   defaultCenter = [27.041, 88.266]
 }) {
   const markerRefs = useRef({});
@@ -206,6 +221,8 @@ export default function MapView({
           maxZoom={OSM_STANDARD.maxZoom}
         />
 
+        <MapResizeHandler mobileView={mobileView} />
+
         <StaysClusterLayer
           stays={stays}
           selectedStay={selectedStay}
@@ -234,6 +251,65 @@ export default function MapView({
           </div>
         </div>
       </div>
+
+      {/* Dynamic Floating Stay Card on Map */}
+      {selectedStay && (
+        <div className="map-floating-card">
+          <button
+            type="button"
+            className="map-card-close-btn"
+            onClick={() => onSelectStay(null)}
+            title="Close card"
+            aria-label="Close card"
+          >
+            <X size={15} />
+          </button>
+          
+          <div className="map-card-body">
+            <div className="map-card-badge-row">
+              <span className={`category-badge badge-${(selectedStay.category || 'hotel').toLowerCase()}`}>
+                {selectedStay.category}
+              </span>
+              <span className="map-card-area-text">{selectedStay.area}</span>
+            </div>
+            
+            <h4 className="map-card-name">{selectedStay.name}</h4>
+            <p className="map-card-address-text">{selectedStay.address}</p>
+
+            <div className="map-card-actions-bar">
+              {selectedStay.phone_number && (
+                <a href={`tel:${selectedStay.phone_number}`} className="map-action-btn btn-call" title="Call">
+                  <Phone size={13} />
+                  <span>Call</span>
+                </a>
+              )}
+              {selectedStay.email && (
+                <a href={`mailto:${selectedStay.email}`} className="map-action-btn btn-email" title="Email">
+                  <Mail size={13} />
+                  <span>Email</span>
+                </a>
+              )}
+              {selectedStay.website && (
+                <a href={selectedStay.website} target="_blank" rel="noopener noreferrer" className="map-action-btn btn-web" title="Website">
+                  <Globe size={13} />
+                  <span>Website</span>
+                </a>
+              )}
+              {onSwitchView && (
+                <button
+                  type="button"
+                  className="map-action-btn btn-list-view"
+                  onClick={() => onSwitchView('list')}
+                  title="View in list"
+                >
+                  <List size={13} />
+                  <span>View in List</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

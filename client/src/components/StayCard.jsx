@@ -19,7 +19,7 @@ const CATEGORY_CONFIG = {
   },
 };
 
-export default function StayCard({ stay, isSelected, onSelect }) {
+export default function StayCard({ stay, isSelected, onSelect, onOpenMap }) {
   const config = CATEGORY_CONFIG[stay.category] || {
     badgeClass: 'badge-default',
     icon: Building2,
@@ -53,10 +53,27 @@ export default function StayCard({ stay, isSelected, onSelect }) {
     >
       <div className="card-header">
         <h3 className="stay-name">{stay.name}</h3>
-        <span className={`category-badge ${config.badgeClass}`}>
-          <CategoryIcon size={12} className="badge-icon" />
-          <span>{config.label}</span>
-        </span>
+        <div className="card-header-tags">
+          <span className={`category-badge ${config.badgeClass}`}>
+            <CategoryIcon size={12} className="badge-icon" />
+            <span>{config.label}</span>
+          </span>
+          {onOpenMap && (
+            <button
+              type="button"
+              className="card-map-pin-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenMap(stay);
+              }}
+              title="Locate on map"
+              aria-label="Locate on map"
+            >
+              <MapPin size={11} />
+              <span>Map</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="card-area">
