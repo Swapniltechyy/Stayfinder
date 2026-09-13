@@ -1,0 +1,24 @@
+{
+  "name": "stayfinder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StayFinder - Travel Agency Internal Portal for Accommodations Discovery",
+  "main": "server/index.js",
+  "scripts": {
+    "server": "node server/index.js",
+    "client": "npm --prefix client run dev",
+    "client:install": "npm --prefix client install",
+    "client:build": "npm --prefix client run build",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run server\" \"npm run client\"",
+    "build": "npm --prefix client run build",
+    "start": "node server/index.js",
+    "postinstall": "npm --prefix client install"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
